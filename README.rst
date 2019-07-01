@@ -44,17 +44,6 @@ Installation
     # If you want to parse .docx, .doc and .pdf files (Ubuntu and OSX supported)
     pip install -r resume_parser/requirements_with_textract.txt
 
--  Modify ``resume_parser/resume_parser/skills.csv`` as per your
-   requirements
-
--  Modify ``Education Degrees`` as per you requirements in
-   `resume\_parser/resume\_parser/constants.py <https://github.com/OmkarPathak/ResumeParser/blob/master/constants.py>`__
-
--  Place all the resumes that you want to parse in
-   ``resume_parser/resumes/`` directory
-
--  Run ``python resume_parser/pyresparser -f <resume_file_path>``
-
 CLI
 ===
 
@@ -74,20 +63,20 @@ For extracting data from a single resume file, use
 
 .. code:: bash
 
-    python resume_parser/pyresparser -f <resume_file_path>
+    pyresparser -f <resume_file_path>
 
 For extracting data from several resumes, place them in a directory and
 then execute
 
 .. code:: bash
 
-    python resume_parser/pyresparser -d <resume_directory_path>
+    pyresparser -d <resume_directory_path>
 
 For extracting data from remote resumes, execute
 
 .. code:: bash
 
-    python resume_parser/pyresparser -r <path_to_remote_resume_file>
+    pyresparser -r <path_to_remote_resume_file>
 
 Notes:
 ======

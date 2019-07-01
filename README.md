@@ -39,13 +39,7 @@ pip install -r resume_parser/requirements.txt
 pip install -r resume_parser/requirements_with_textract.txt
 ```
 
-- Modify `resume_parser/resume_parser/skills.csv` as per your requirements
-
-- Modify `Education Degrees` as per you requirements in [resume_parser/resume_parser/constants.py](https://github.com/OmkarPathak/ResumeParser/blob/master/constants.py)
-
-- Place all the resumes that you want to parse in `resume_parser/resumes/` directory
-
-- Run `python resume_parser/pyresparser -f <resume_file_path>`
+- Run `pyresparser -f <resume_file_path>`
 
 # CLI
 
@@ -64,19 +58,19 @@ optional arguments:
 For extracting data from a single resume file, use
 
 ```bash
-python resume_parser/pyresparser -f <resume_file_path>
+pyresparser -f <resume_file_path>
 ```
 
 For extracting data from several resumes, place them in a directory and then execute
 
 ```bash
-python resume_parser/pyresparser -d <resume_directory_path>
+pyresparser -d <resume_directory_path>
 ```
 
 For extracting data from remote resumes, execute
 
 ```bash
-python resume_parser/pyresparser -r <path_to_remote_resume_file>
+pyresparser -r <path_to_remote_resume_file>
 ```
 
 # Notes:
