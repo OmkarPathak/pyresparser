@@ -53,7 +53,7 @@ Installation
 -  Place all the resumes that you want to parse in
    ``resume_parser/resumes/`` directory
 
--  Run ``python resume_parser/cli.py -f <resume_file_path>``
+-  Run ``python resume_parser/pyresparser -f <resume_file_path>``
 
 CLI
 ===
@@ -62,7 +62,7 @@ For running the resume extractor you can also use the ``cli`` provided
 
 .. code:: bash
 
-    usage: cli.py [-h] [-f FILE] [-d DIRECTORY]
+    usage: pyresparser [-h] [-f FILE] [-d DIRECTORY]
 
     optional arguments:
       -h, --help                              show this help message and exit
@@ -74,20 +74,20 @@ For extracting data from a single resume file, use
 
 .. code:: bash
 
-    python resume_parser/cli.py -f <resume_file_path>
+    python resume_parser/pyresparser -f <resume_file_path>
 
 For extracting data from several resumes, place them in a directory and
 then execute
 
 .. code:: bash
 
-    python resume_parser/cli.py -d <resume_directory_path>
+    python resume_parser/pyresparser -d <resume_directory_path>
 
 For extracting data from remote resumes, execute
 
 .. code:: bash
 
-    python resume_parser/cli.py -r <path_to_remote_resume_file>
+    python resume_parser/pyresparser -r <path_to_remote_resume_file>
 
 Notes:
 ======
