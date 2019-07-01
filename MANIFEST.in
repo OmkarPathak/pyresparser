@@ -1,4 +1,5 @@
 include README.md
 include pyresparser/skills.csv
+include bin/pyresparser.py
 
 recursive-include pyresparser *

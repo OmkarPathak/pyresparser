@@ -8,8 +8,8 @@ A simple resume parser used for extracting information from resumes
 - Extract mobile numbers
 - Extract skills
 - Extract total experience
-- Extract education (not very accurate)
-- Extract experience (not very accurate)
+- Extract education (not very accurate as of now)
+- Extract experience (not very accurate as of now)
 
 # Installation
 

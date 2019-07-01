@@ -21,9 +21,6 @@ from pdfminer.pdfparser import PDFSyntaxError
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 
-if os.name != 'nt':
-    import textract
-
 def extract_text_from_pdf(pdf_path):
     '''
     Helper function to extract the plain text from .pdf files
@@ -122,6 +119,10 @@ def extract_text_from_doc(doc_path):
     :return: string of extracted text
     '''
     try:
+        try:
+            import textract
+        except ImportError:
+            return ' '
         temp = textract.process(doc_path).decode('utf-8')
         text = [line.replace('\t', ' ') for line in temp.split('\n') if line]
         return ' '.join(text)
@@ -141,9 +142,7 @@ def extract_text(file_path, extension):
             text += ' ' + page
     elif extension == '.docx':
         text = extract_text_from_docx(file_path)
-    elif extension == '.doc':
-        if os.name == 'nt':
-            return ' '
+    elif extension == '.doc':   
         text = extract_text_from_doc(file_path)
     return text
 

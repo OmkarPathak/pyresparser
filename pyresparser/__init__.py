@@ -1,9 +1,9 @@
 from . import utils
 from . import constants
-from . import resume_parser
+from .resume_parser import ResumeParser
 
 __all__ = [
     'utils',
     'constants',
-    'resume_parser'
+    'ResumeParser'
 ]
