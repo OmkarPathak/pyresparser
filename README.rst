@@ -11,8 +11,8 @@ Features
 -  Extract mobile numbers
 -  Extract skills
 -  Extract total experience
--  Extract education (not very accurate)
--  Extract experience (not very accurate)
+-  Extract education (not very accurate as of now)
+-  Extract experience (not very accurate as of now)
 
 Installation
 ============
@@ -43,6 +43,16 @@ Installation
 
     # If you want to parse .docx, .doc and .pdf files (Ubuntu and OSX supported)
     pip install -r resume_parser/requirements_with_textract.txt
+
+Supported File Formats
+======================
+
+-  PDF and DOCx files are supported on all Operating Systems
+-  If you want to extract DOC files you can install
+   `textract <https://textract.readthedocs.io/en/stable/installation.html>`__
+   for your OS (Linux, MacOS)
+-  Note: You just have to install textract (and nothing else) and doc
+   files will get parsed easily
 
 CLI
 ===

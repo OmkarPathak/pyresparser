@@ -39,7 +39,11 @@ pip install -r resume_parser/requirements.txt
 pip install -r resume_parser/requirements_with_textract.txt
 ```
 
-- Run `pyresparser -f <resume_file_path>`
+# Supported File Formats
+
+- PDF and DOCx files are supported on all Operating Systems
+- If you want to extract DOC files you can install [textract](https://textract.readthedocs.io/en/stable/installation.html) for your OS (Linux, MacOS)
+- Note: You just have to install textract (and nothing else) and doc files will get parsed easily
 
 # CLI
 
