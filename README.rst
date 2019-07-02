@@ -34,16 +34,6 @@ Installation
     # nltk
     python -m nltk.downloader words
 
--  For extracting other supporting dependencies, execute:
-
-.. code:: bash
-
-    # If you want to parse .docx and .pdf files (all OS supported)
-    pip install -r resume_parser/requirements.txt
-
-    # If you want to parse .docx, .doc and .pdf files (Ubuntu and OSX supported)
-    pip install -r resume_parser/requirements_with_textract.txt
-
 Supported File Formats
 ======================
 
