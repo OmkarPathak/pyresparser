@@ -20,8 +20,6 @@ class ResumeParser(object):
             'skills'            : None,
             'education'         : None,
             'experience'        : None,
-            'competencies'      : None,
-            'measurable_results': None,
             'no_of_pages'       : None,
             'total_experience'  : None,
         }
@@ -54,16 +52,10 @@ class ResumeParser(object):
         try:
             self.__details['experience'] = entities['experience']
             try:
-                self.__details['competencies'] = utils.extract_competencies(self.__text_raw, entities['experience'])
-                self.__details['measurable_results'] = utils.extract_measurable_results(self.__text_raw, entities['experience'])
                 self.__details['total_experience'] = round(utils.get_total_experience(entities['experience']) / 12, 2)
             except KeyError:
-                self.__details['competencies'] = {}
-                self.__details['measurable_results'] = {}
                 self.__details['total_experience'] = 0
         except KeyError:
-            self.__details['competencies'] = {}
-            self.__details['measurable_results'] = {}
             self.__details['total_experience'] = 0
         self.__details['no_of_pages'] = utils.get_number_of_pages(self.__resume)
         return
