@@ -1,5 +1,16 @@
 # pyresparser
+
+```
 A simple resume parser used for extracting information from resumes
+```
+
+Built with ❤︎ and :coffee: by  [Omkar Pathak](https://github.com/OmkarPathak)
+
+---
+
+[![GitHub stars](https://img.shields.io/github/stars/OmkarPathak/pyresparser.svg)](https://github.com/OmkarPathak/pyresparser/stargazers)
+![Python](https://img.shields.io/badge/Python-3.7-brightgreen.svg)
+[![GitHub](https://img.shields.io/github/license/omkarpathak/pyresparser.svg)](https://github.com/OmkarPathak/pyresparser/blob/master/LICENSE) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/Django.svg) [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-:D-1EAEDB.svg)](https://saythanks.io/to/OmkarPathak)
 
 # Features
 
