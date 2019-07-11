@@ -140,8 +140,6 @@ The module would return a list of dictionary objects with result as follows:
 
 - [https://medium.com/@divalicious.priya/information-extraction-from-cv-acec216c3f48](https://medium.com/@divalicious.priya/information-extraction-from-cv-acec216c3f48)
 
-### Built with ♥ and :coffee: by [`Omkar Pathak`](http://www.omkarpathak.in/)
-
 # Donation
 
 If you have found my softwares to be of any use to you, do consider helping me pay my internet bills. This would encourage me to create many such softwares :)
