@@ -35,6 +35,15 @@ python -m nltk.downloader words
 - If you want to extract DOC files you can install [textract](https://textract.readthedocs.io/en/stable/installation.html) for your OS (Linux, MacOS)
 - Note: You just have to install textract (and nothing else) and doc files will get parsed easily
 
+# Usage
+
+- Import it in your Python project
+
+```python
+from pyresparser import ResumeParser
+data = ResumeParser('/path/to/resume/file').get_extracted_data()
+```
+
 # CLI
 
 For running the resume extractor you can also use the `cli` provided
