@@ -1,5 +1,16 @@
 # pyresparser
+
+```
 A simple resume parser used for extracting information from resumes
+```
+
+Built with ❤︎ and :coffee: by  [Omkar Pathak](https://github.com/OmkarPathak)
+
+---
+
+[![GitHub stars](https://img.shields.io/github/stars/OmkarPathak/pyresparser.svg)](https://github.com/OmkarPathak/pyresparser/stargazers)
+![Python](https://img.shields.io/badge/Python-3.7-brightgreen.svg)
+[![GitHub](https://img.shields.io/github/license/omkarpathak/pyresparser.svg)](https://github.com/OmkarPathak/pyresparser/blob/master/LICENSE) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/Django.svg) [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-:D-1EAEDB.svg)](https://saythanks.io/to/OmkarPathak)
 
 # Features
 
@@ -137,8 +148,6 @@ The module would return a list of dictionary objects with result as follows:
 - [https://www.analyticsvidhya.com/blog/2017/04/natural-language-processing-made-easy-using-spacy-%E2%80%8Bin-python/](https://www.analyticsvidhya.com/blog/2017/04/natural-language-processing-made-easy-using-spacy-%E2%80%8Bin-python/)
 
 - [https://medium.com/@divalicious.priya/information-extraction-from-cv-acec216c3f48](https://medium.com/@divalicious.priya/information-extraction-from-cv-acec216c3f48)
-
-### Built with ♥ and :coffee: by [`Omkar Pathak`](http://www.omkarpathak.in/)
 
 # Donation
 
