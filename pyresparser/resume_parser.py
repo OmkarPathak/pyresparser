@@ -6,11 +6,12 @@ import io
 import spacy
 import pprint
 from spacy.matcher import Matcher
-from .import utils
+from . import utils
 
 class ResumeParser(object):
     def __init__(self, resume, skills_file=None):
         nlp = spacy.load('en_core_web_sm')
+        custom_nlp = spacy.load(os.path.dirname(os.path.abspath(__file__)))
         self.__skills_file = skills_file
         self.__matcher = Matcher(nlp.vocab)
         self.__details = {
@@ -18,8 +19,11 @@ class ResumeParser(object):
             'email'             : None,
             'mobile_number'     : None,
             'skills'            : None,
-            'education'         : None,
+            'college_name'      : None,
+            'degree'            : None,
+            'designation'       : None,
             'experience'        : None,
+            'company_names'     : None,
             'no_of_pages'       : None,
             'total_experience'  : None,
         }
@@ -31,6 +35,7 @@ class ResumeParser(object):
         self.__text_raw    = utils.extract_text(self.__resume, '.' + ext)
         self.__text        = ' '.join(self.__text_raw.split())
         self.__nlp         = nlp(self.__text)
+        self.__custom_nlp  = custom_nlp(self.__text_raw)
         self.__noun_chunks = list(self.__nlp.noun_chunks)
         self.__get_basic_details()
 
@@ -38,17 +43,53 @@ class ResumeParser(object):
         return self.__details
 
     def __get_basic_details(self):
-        name       = utils.extract_name(self.__nlp, matcher=self.__matcher)
-        email      = utils.extract_email(self.__text)
-        mobile     = utils.extract_mobile_number(self.__text)
-        skills     = utils.extract_skills(self.__nlp, self.__noun_chunks, self.__skills_file)
-        edu        = utils.extract_education([sent.string.strip() for sent in self.__nlp.sents])
-        entities   = utils.extract_entity_sections_grad(self.__text_raw)
-        self.__details['name'] = name
+        custom_entities = utils.extract_entities_wih_custom_model(self.__custom_nlp)
+        name            = utils.extract_name(self.__nlp, matcher=self.__matcher)
+        email           = utils.extract_email(self.__text)
+        mobile          = utils.extract_mobile_number(self.__text)
+        skills          = utils.extract_skills(self.__nlp, self.__noun_chunks, self.__skills_file)
+        edu             = utils.extract_education([sent.string.strip() for sent in self.__nlp.sents])
+        entities        = utils.extract_entity_sections_grad(self.__text_raw)
+
+        # extract name
+        try:
+            self.__details['name'] = custom_entities['Name'][0]
+        except (IndexError, KeyError):
+            self.__details['name'] = name
+
+        #extract email
         self.__details['email'] = email
+
+        # extract mobile number
         self.__details['mobile_number'] = mobile
+
+        # extract skills
         self.__details['skills'] = skills
-        self.__details['education'] = edu
+
+        # extract college name
+        try:
+            self.__details['college_name'] = entities['College Name']
+        except KeyError:
+            pass
+
+        # extract education Degree
+        try:
+            self.__details['degree'] = custom_entities['Degree']
+        except KeyError:
+            pass
+
+        # extract designation
+        try:
+            self.__details['designation'] = custom_entities['Designation']
+        except KeyError:
+            pass
+
+        # extract company names
+        try:
+            self.__details['company_names'] = custom_entities['Companies worked at']
+        except KeyError:
+            pass
+
         try:
             self.__details['experience'] = entities['experience']
             try:

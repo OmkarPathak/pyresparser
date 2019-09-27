@@ -192,6 +192,23 @@ def extract_entity_sections_grad(text):
     #         entities[entity] = None
     return entities
 
+def extract_entities_wih_custom_model(custom_nlp_text):
+    '''
+    Helper function to extract different entities with custom trained model using SpaCy's NER
+
+    :param custom_nlp_text: object of `spacy.tokens.doc.Doc`
+    :return: dictionary of entities
+    '''
+    entities  = {}
+    for ent in custom_nlp_text.ents:
+        if ent.label_ not in entities.keys():
+            entities[ent.label_] = [ent.text]
+        else:
+            entities[ent.label_].append(ent.text)
+    for key in entities.keys():
+        entities[key] = list(set(entities[key]))
+    return entities
+
 def get_total_experience(experience_list):
     '''
     Wrapper function to extract total months of experience from a resume
