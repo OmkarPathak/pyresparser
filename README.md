@@ -9,6 +9,7 @@ Built with ❤︎ and :coffee: by  [Omkar Pathak](https://github.com/OmkarPathak
 ---
 
 [![GitHub stars](https://img.shields.io/github/stars/OmkarPathak/pyresparser.svg)](https://github.com/OmkarPathak/pyresparser/stargazers)
+[![Downloads](https://pepy.tech/badge/pyresparser)](https://pepy.tech/project/pyresparser)
 ![Python](https://img.shields.io/badge/Python-3.7-brightgreen.svg)
 [![GitHub](https://img.shields.io/github/license/omkarpathak/pyresparser.svg)](https://github.com/OmkarPathak/pyresparser/blob/master/LICENSE) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/Django.svg) [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-:D-1EAEDB.svg)](https://saythanks.io/to/OmkarPathak)
 
@@ -151,7 +152,7 @@ The module would return a list of dictionary objects with result as follows:
 
 # Donation
 
-If you have found my softwares to be of any use to you, do consider helping me pay my internet bills. This would encourage me to create many such softwares :)
+If you have found my softwares to be of any use to you, do consider helping me pay my internet bills. This would encourage me to create many such softwares :smile:
 
 | PayPal | <a href="https://paypal.me/omkarpathak27" target="_blank"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg" alt="Donate via PayPal!" title="Donate via PayPal!" /></a> |
 |:-------------------------------------------:|:-------------------------------------------------------------:|

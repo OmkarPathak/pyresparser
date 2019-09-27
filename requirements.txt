@@ -7,7 +7,7 @@ docx2txt==0.7
 idna==2.8
 jsonschema==3.0.1
 murmurhash==1.0.2
-nltk==3.4.3
+nltk==3.4.5
 numpy==1.16.4
 pandas==0.24.2
 pdfminer.six==20181108
