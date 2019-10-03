@@ -6,6 +6,7 @@ from pprint import pprint
 import io
 import csv
 import multiprocessing as mp
+import urllib
 from urllib.request import Request, urlopen
 from pyresparser import ResumeParser
 from itertools import product
@@ -71,13 +72,16 @@ class ResumeParserCli(object):
             return 'Directory not found. Please provide a valid directory.'
 
     def __extract_from_remote_file(self, remote_file):
-        print_cyan('Extracting data from: {}'.format(remote_file))
-        req = Request(remote_file, headers={'User-Agent': 'Mozilla/5.0'})
-        webpage = urlopen(req).read()
-        _file = io.BytesIO(webpage)
-        _file.name = remote_file.split('/')[-1]
-        resume_parser = ResumeParser(_file)
-        return [resume_parser.get_extracted_data()]
+        try:
+            print_cyan('Extracting data from: {}'.format(remote_file))
+            req = Request(remote_file, headers={'User-Agent': 'Mozilla/5.0'})
+            webpage = urlopen(req).read()
+            _file = io.BytesIO(webpage)
+            _file.name = remote_file.split('/')[-1]
+            resume_parser = ResumeParser(_file)
+            return [resume_parser.get_extracted_data()]
+        except urllib.error.HTTPError:
+            return 'File not found. Please provide correct URL for resume file.'
 
 def resume_result_wrapper(args):
     if len(args) == 2:

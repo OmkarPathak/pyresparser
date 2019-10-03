@@ -20,8 +20,10 @@ Built with ❤︎ and :coffee: by  [Omkar Pathak](https://github.com/OmkarPathak
 - Extract mobile numbers
 - Extract skills
 - Extract total experience
-- Extract education (not very accurate as of now)
-- Extract experience (not very accurate as of now)
+- Extract college name
+- Extract degree
+- Extract designation
+- Extract company names
 
 # Installation
 
@@ -61,13 +63,15 @@ data = ResumeParser('/path/to/resume/file').get_extracted_data()
 For running the resume extractor you can also use the `cli` provided
 
 ```bash
-usage: pyresparser [-h] [-f FILE] [-d DIRECTORY]
+usage: pyresparser [-h] [-f FILE] [-d DIRECTORY] [-r REMOTEFILE]
+                   [-sf SKILLSFILE]
 
 optional arguments:
-  -h, --help                              show this help message and exit
-  -f FILE, --file FILE                    resume file to be extracted
-  -d DIRECTORY, --directory DIRECTORY     directory containing all the resumes to be extracted
-  -r REMOTEFILE, --remotefile REMOTEFILE  remote path for resume file to be extracted
+  -h, --help                                show this help message and exit
+  -f FILE, --file FILE                      resume file to be extracted
+  -d DIRECTORY, --directory DIRECTORY       directory containing all the resumes to be extracted
+  -r REMOTEFILE, --remotefile REMOTEFILE    remote path for resume file to be extracted
+  -sf SKILLSFILE, --skillsfile SKILLSFILE   custom skills CSV file against which skills are searched for
 ```
 
 For extracting data from a single resume file, use
@@ -86,6 +90,12 @@ For extracting data from remote resumes, execute
 
 ```bash
 pyresparser -r <path_to_remote_resume_file>
+```
+
+For extracting data against your specified skills, create a CSV file with no headers. Sample file can be found [here](pyresparser/skills.csv)
+
+```bash
+pyresparser -sf <path_to_custom_skills_file>
 ```
 
 # Notes:
@@ -135,6 +145,8 @@ The module would return a list of dictionary objects with result as follows:
 - [https://www.analyticsvidhya.com/blog/2017/04/natural-language-processing-made-easy-using-spacy-%E2%80%8Bin-python/](https://www.analyticsvidhya.com/blog/2017/04/natural-language-processing-made-easy-using-spacy-%E2%80%8Bin-python/)
 
 - [https://medium.com/@divalicious.priya/information-extraction-from-cv-acec216c3f48](https://medium.com/@divalicious.priya/information-extraction-from-cv-acec216c3f48)
+
+- **Special thanks** to dataturks for their [annotated dataset](https://dataturks.com/blog/named-entity-recognition-in-resumes.php)
 
 # Donation
 

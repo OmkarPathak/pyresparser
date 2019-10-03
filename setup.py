@@ -5,7 +5,7 @@ here = path.abspath(path.dirname(__file__))
 
 setup(
     name='pyresparser',
-    version='1.0.4',
+    version='1.0.5',
     description='A simple resume parser used for extracting information from resumes',
     long_description=open('README.rst').read(),
     url='https://github.com/OmkarPathak/pyresparser',
