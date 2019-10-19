@@ -21,6 +21,18 @@ class ResumeParserCli(object):
         self.__parser.add_argument('-d', '--directory', help="directory containing all the resumes to be extracted")
         self.__parser.add_argument('-r', '--remotefile', help="remote path for resume file to be extracted")
         self.__parser.add_argument('-sf', '--skillsfile', help="custom skills CSV file against which skills are searched for")
+        self.__banner()
+
+    def __banner(self):
+        banner_string = r''' 
+                 ____  __  __________  _________  ____  _____________  _____
+                / __ \/ / / / ___/ _ \/ ___/ __ \/ __ `/ ___/ ___/ _ \/ ___/
+               / /_/ / /_/ / /  /  __(__  ) /_/ / /_/ / /  (__  )  __/ /
+              / .___/\__, /_/   \___/____/ .___/\__,_/_/  /____/\___/_/
+             /_/    /____/              /_/
+                                                                        - By Omkar Pathak (omkarpathak27@gmail.com)
+        '''
+        print(banner_string)
 
     def extract_resume_data(self):
         args = self.__parser.parse_args()
