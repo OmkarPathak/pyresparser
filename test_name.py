@@ -9,7 +9,8 @@ from pyresparser import ResumeParser
 
 def get_init_data():
     try:
-        print('Extracting data from: {}'.format('https://www.omkarpathak.in/downloads/OmkarResume.pdf'))
+        remote_file = 'https://www.omkarpathak.in/downloads/OmkarResume.pdf'
+        print('Extracting data from: {}'.format(remote_file))
         req = Request(remote_file, headers={'User-Agent': 'Mozilla/5.0'})
         webpage = urlopen(req).read()
         _file = io.BytesIO(webpage)

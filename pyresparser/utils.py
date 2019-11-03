@@ -123,9 +123,8 @@ def extract_text_from_doc(doc_path):
             import textract
         except ImportError:
             return ' '
-        temp = textract.process(doc_path).decode('utf-8')
-        text = [line.replace('\t', ' ') for line in temp.split('\n') if line]
-        return ' '.join(text)
+        text = textract.process(doc_path).decode('utf-8')
+        return text
     except KeyError:
         return ' '
 
