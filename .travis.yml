@@ -2,7 +2,6 @@ language: python
 cache: pip
 matrix:
   include:
-    - python: 2.7
     - python: 3.5
     - python: 3.6
     - python: 3.7
@@ -10,6 +9,7 @@ install:
   - pip install -r requirements.txt
   - python -m spacy download en_core_web_sm
   - python -m nltk.downloader words
+  - python -m nltk.downloader stopwords
   - pip install pytest
 script:
   - "pytest"
