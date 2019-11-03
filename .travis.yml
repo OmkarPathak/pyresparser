@@ -9,3 +9,5 @@ matrix:
     - python: 3.8-dev
 install:
   - pip install -r requirements.txt
+script:
+  - "pytest"
