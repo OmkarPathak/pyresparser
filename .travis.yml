@@ -11,8 +11,9 @@ install:
   - python -m nltk.downloader words
   - python -m nltk.downloader stopwords
   - pip install pytest
+  - pip install coverage
   - pip install codecov
 script:
-  - "pytest"
+  - "coverage run -m pytest"
 after_success:
   - codecov
