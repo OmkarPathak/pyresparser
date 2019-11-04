@@ -11,5 +11,8 @@ install:
   - python -m nltk.downloader words
   - python -m nltk.downloader stopwords
   - pip install pytest
+  - pip install codecov
 script:
   - "pytest"
+after_success:
+  - codecov
