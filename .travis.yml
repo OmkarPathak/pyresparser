@@ -13,6 +13,9 @@ install:
   - pip install pytest
   - pip install coverage
   - pip install codecov
+  - pip install flake8
+before_script:
+  - "flake8 ."
 script:
   - "coverage run -m pytest"
 after_success:
