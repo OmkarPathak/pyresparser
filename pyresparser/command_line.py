@@ -4,33 +4,48 @@ import os
 import argparse
 from pprint import pprint
 import io
-import csv
 import multiprocessing as mp
 import urllib
 from urllib.request import Request, urlopen
 from pyresparser import ResumeParser
-from itertools import product
+
 
 def print_cyan(text):
     print("\033[96m {}\033[00m" .format(text))
 
+
 class ResumeParserCli(object):
-    def __init__(self):     
+
+    def __init__(self):
         self.__parser = argparse.ArgumentParser()
-        self.__parser.add_argument('-f', '--file', help="resume file to be extracted")
-        self.__parser.add_argument('-d', '--directory', help="directory containing all the resumes to be extracted")
-        self.__parser.add_argument('-r', '--remotefile', help="remote path for resume file to be extracted")
-        self.__parser.add_argument('-sf', '--skillsfile', help="custom skills CSV file against which skills are searched for")
+        self.__parser.add_argument(
+            '-f',
+            '--file',
+            help="resume file to be extracted")
+        self.__parser.add_argument(
+            '-d',
+            '--directory',
+            help="directory containing all the resumes to be extracted")
+        self.__parser.add_argument(
+            '-r',
+            '--remotefile',
+            help="remote path for resume file to be extracted")
+        self.__parser.add_argument(
+            '-sf',
+            '--skillsfile',
+            help="custom skills CSV file against \
+                  which skills are searched for")
         self.__banner()
 
     def __banner(self):
-        banner_string = r''' 
+        banner_string = r'''
                  ____  __  __________  _________  ____  _____________  _____
                 / __ \/ / / / ___/ _ \/ ___/ __ \/ __ `/ ___/ ___/ _ \/ ___/
                / /_/ / /_/ / /  /  __(__  ) /_/ / /_/ / /  (__  )  __/ /
               / .___/\__, /_/   \___/____/ .___/\__,_/_/  /____/\___/_/
              /_/    /____/              /_/
-                                                                        - By Omkar Pathak (omkarpathak27@gmail.com)
+
+           - By Omkar Pathak (omkarpathak27@gmail.com)
         '''
         print(banner_string)
 
@@ -46,7 +61,10 @@ class ResumeParserCli(object):
                 return self.__extract_from_file(args.file)
         elif args.directory and not args.file:
             if args.skillsfile:
-                return self.__extract_from_directory(args.directory, args.skillsfile)
+                return self.__extract_from_directory(
+                    args.directory,
+                    args.skillsfile
+                )
             else:
                 return self.__extract_from_directory(args.directory)
         else:
@@ -93,7 +111,8 @@ class ResumeParserCli(object):
             resume_parser = ResumeParser(_file)
             return [resume_parser.get_extracted_data()]
         except urllib.error.HTTPError:
-            return 'File not found. Please provide correct URL for resume file.'
+            return 'File not found. Please provide correct URL for resume file'
+
 
 def resume_result_wrapper(args):
     if len(args) == 2:
@@ -103,6 +122,7 @@ def resume_result_wrapper(args):
         print_cyan('Extracting data from: {}'.format(args))
         parser = ResumeParser(args)
     return parser.get_extracted_data()
+
 
 def main():
     cli_obj = ResumeParserCli()

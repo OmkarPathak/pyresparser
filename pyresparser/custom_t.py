@@ -1,29 +1,15 @@
 import os
-import multiprocessing as mp
 import io
 import spacy
-import pprint
-from spacy.matcher import Matcher
-import io
-import os
-import re
-import nltk
-import spacy
-import pandas as pd
 import docx2txt
-import subprocess
-from datetime import datetime
-from dateutil import relativedelta
 import constants as cs
-from spacy.matcher import Matcher
 from pdfminer.converter import TextConverter
 from pdfminer.pdfinterp import PDFPageInterpreter
 from pdfminer.pdfinterp import PDFResourceManager
 from pdfminer.layout import LAParams
 from pdfminer.pdfpage import PDFPage
 from pdfminer.pdfparser import PDFSyntaxError
-from nltk.stem import WordNetLemmatizer
-from nltk.corpus import stopwords
+
 
 def extract_text_from_pdf(pdf_path):
     '''
@@ -37,18 +23,28 @@ def extract_text_from_pdf(pdf_path):
         # extract text from local pdf file
         with open(pdf_path, 'rb') as fh:
             try:
-                for page in PDFPage.get_pages(fh, 
-                                            caching=True,
-                                            check_extractable=True):
+                for page in PDFPage.get_pages(
+                                fh,
+                                caching=True,
+                                check_extractable=True
+                ):
                     resource_manager = PDFResourceManager()
                     fake_file_handle = io.StringIO()
-                    converter = TextConverter(resource_manager, fake_file_handle, codec='utf-8', laparams=LAParams())
-                    page_interpreter = PDFPageInterpreter(resource_manager, converter)
+                    converter = TextConverter(
+                        resource_manager,
+                        fake_file_handle,
+                        codec='utf-8',
+                        laparams=LAParams()
+                    )
+                    page_interpreter = PDFPageInterpreter(
+                        resource_manager,
+                        converter
+                    )
                     page_interpreter.process_page(page)
-        
+
                     text = fake_file_handle.getvalue()
                     yield text
-        
+
                     # close open handles
                     converter.close()
                     fake_file_handle.close()
@@ -57,18 +53,28 @@ def extract_text_from_pdf(pdf_path):
     else:
         # extract text from remote pdf file
         try:
-            for page in PDFPage.get_pages(pdf_path, 
-                                            caching=True,
-                                            check_extractable=True):
+            for page in PDFPage.get_pages(
+                pdf_path,
+                caching=True,
+                check_extractable=True
+            ):
                 resource_manager = PDFResourceManager()
                 fake_file_handle = io.StringIO()
-                converter = TextConverter(resource_manager, fake_file_handle, codec='utf-8', laparams=LAParams())
-                page_interpreter = PDFPageInterpreter(resource_manager, converter)
+                converter = TextConverter(
+                    resource_manager,
+                    fake_file_handle,
+                    codec='utf-8',
+                    laparams=LAParams()
+                )
+                page_interpreter = PDFPageInterpreter(
+                    resource_manager,
+                    converter
+                )
                 page_interpreter.process_page(page)
-    
+
                 text = fake_file_handle.getvalue()
                 yield text
-    
+
                 # close open handles
                 converter.close()
                 fake_file_handle.close()
@@ -81,25 +87,30 @@ def get_number_of_pages(file_name):
         if isinstance(file_name, io.BytesIO):
             # for remote pdf file
             count = 0
-            for page in PDFPage.get_pages(file_name, 
-                                        caching=True,
-                                        check_extractable=True):
-                    count += 1
+            for page in PDFPage.get_pages(
+                file_name,
+                caching=True,
+                check_extractable=True
+            ):
+                count += 1
             return count
         else:
             # for local pdf file
             if file_name.endswith('.pdf'):
                 count = 0
                 with open(file_name, 'rb') as fh:
-                    for page in PDFPage.get_pages(fh, 
-                                                caching=True,
-                                                check_extractable=True):
+                    for page in PDFPage.get_pages(
+                        fh,
+                        caching=True,
+                        check_extractable=True
+                    ):
                         count += 1
                 return count
             else:
                 return None
     except PDFSyntaxError:
         return None
+
 
 def extract_text_from_docx(doc_path):
     '''
@@ -114,6 +125,7 @@ def extract_text_from_docx(doc_path):
         return ' '.join(text)
     except KeyError:
         return ' '
+
 
 def extract_text_from_doc(doc_path):
     '''
@@ -133,9 +145,11 @@ def extract_text_from_doc(doc_path):
     except KeyError:
         return ' '
 
+
 def extract_text(file_path, extension):
     '''
-    Wrapper function to detect the file extension and call text extraction function accordingly
+    Wrapper function to detect the file extension and call text
+    extraction function accordingly
 
     :param file_path: path of file of which text is to be extracted
     :param extension: extension of file `file_name`
@@ -146,14 +160,15 @@ def extract_text(file_path, extension):
             text += ' ' + page
     elif extension == '.docx':
         text = extract_text_from_docx(file_path)
-    elif extension == '.doc':   
+    elif extension == '.doc':
         text = extract_text_from_doc(file_path)
     return text
 
+
 def extract_entity_sections_grad(text):
     '''
-    Helper function to extract all the raw text from sections of resume specifically for 
-    graduates and undergraduates
+    Helper function to extract all the raw text from sections of resume
+    specifically for graduates and undergraduates
 
     :param text: Raw text of resume
     :return: dictionary of entities
@@ -178,17 +193,21 @@ def extract_entity_sections_grad(text):
             entities[key].append(phrase)
     return entities
 
+
 nlp = spacy.load(os.path.dirname(os.path.abspath(__file__)))
 # resumes = '/home/omkarpathak27/Documents/GITS/resumeparser/resumes/'
 # text_raw    = extract_text(resume, '.pdf')
 # text        = ' '.join(text_raw.split())
 # print(text)
 # for resume in os.listdir(resumes):
-text_raw = extract_text('/home/omkarpathak27/Downloads/OmkarResume.pdf', '.pdf')
+text_raw = extract_text(
+    '/home/omkarpathak27/Downloads/OmkarResume.pdf',
+    '.pdf'
+)
 # entity   = extract_entity_sections_grad(text_raw)
 # if 'experience' in entity.keys():
-doc2     = nlp(text_raw)
-entities  = {}
+doc2 = nlp(text_raw)
+entities = {}
 for ent in doc2.ents:
     if ent.label_ not in entities.keys():
         entities[ent.label_] = [ent.text]

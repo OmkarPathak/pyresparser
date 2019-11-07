@@ -26,13 +26,15 @@ For more details, see the documentation:
 Compatible with: spaCy v2.1.0+
 Last tested with: v2.1.0
 """
-from __future__ import unicode_literals, print_function
-
+from __future__ import unicode_literals
+from __future__ import print_function
+import re
 import plac
 import random
 from pathlib import Path
-import spacy, json, logging
-from spacy.util import minibatch, compounding
+import spacy
+import json
+import logging
 
 
 # new entity label
@@ -47,12 +49,15 @@ LABEL = "COL_NAME"
 # training data
 # TRAIN_DATA = [
 #     ("i study in maria college", {"entities": [(11, 24, LABEL)]}),
-#     ("completed graduation from napier university (edinburgh, united kingdom)", {"entities": [(26, 43, LABEL)]}),
-#     ("studied in school of continuing and professional studies", {"entities": [(11, 16, LABEL)]}),
-#     ("studied at chinese university of hong kong", {"entities": [(11, 29, LABEL)]}),
-#     ("studied in University of Strathclyde", {"entities": [(11, 37, LABEL)]}),
+#     ("completed graduation from napier university (edinburgh,
+#       united kingdom)", {"entities": [(26, 43, LABEL)]}),
+#     ("studied in school of continuing and professional studies",
+#       {"entities": [(11, 16, LABEL)]}),
+#     ("studied at chinese university of hong kong", {"entities":
+#       [(11, 29, LABEL)]}),
+#     ("studied in University of Strathclyde", {"entities":
+#       [(11, 37, LABEL)]}),
 # ]
-import re
 
 
 def trim_entity_spans(data: list) -> list:
@@ -84,10 +89,11 @@ def trim_entity_spans(data: list) -> list:
 
     return cleaned_data
 
+
 def convert_dataturks_to_spacy(dataturks_JSON_FilePath):
     try:
         training_data = []
-        lines=[]
+        lines = []
         with open(dataturks_JSON_FilePath, 'r', encoding="utf8") as f:
             lines = f.readlines()
 
@@ -97,7 +103,7 @@ def convert_dataturks_to_spacy(dataturks_JSON_FilePath):
             entities = []
             if data['annotation'] is not None:
                 for annotation in data['annotation']:
-                    #only a single point in text annotation.
+                    # only a single point in text annotation.
                     point = annotation['points'][0]
                     labels = annotation['label']
                     # handle both list of labels or a single label.
@@ -105,16 +111,20 @@ def convert_dataturks_to_spacy(dataturks_JSON_FilePath):
                         labels = [labels]
 
                     for label in labels:
-                        #dataturks indices are both inclusive [start, end] but spacy is not [start, end)
-                        entities.append((point['start'], point['end'] + 1 ,label))
+                        # dataturks indices are both inclusive [start, end]
+                        # but spacy is not [start, end)
+                        entities.append((
+                            point['start'],
+                            point['end'] + 1,
+                            label
+                        ))
 
-
-            training_data.append((text, {"entities" : entities}))
-
+            training_data.append((text, {"entities": entities}))
         return training_data
-    except Exception as e:
-        logging.exception("Unable to process " + dataturks_JSON_FilePath + "\n" + "error = " + str(e))
+    except Exception:
+        logging.exception("Unable to process " + dataturks_JSON_FilePath)
         return None
+
 
 TRAIN_DATA = trim_entity_spans(convert_dataturks_to_spacy("traindata.json"))
 
@@ -125,7 +135,12 @@ TRAIN_DATA = trim_entity_spans(convert_dataturks_to_spacy("traindata.json"))
     output_dir=("Optional output directory", "option", "o", Path),
     n_iter=("Number of training iterations", "option", "n", int),
 )
-def main(model=None, new_model_name="training", output_dir='/home/omkarpathak27/Downloads/zipped/pyresparser/pyresparser', n_iter=30):
+def main(
+    model=None,
+    new_model_name="training",
+    output_dir='/home/omkarpathak27/Downloads/zipped/pyresparser/pyresparser',
+    n_iter=30
+):
     """Set up the pipeline and entity recognizer, and train the new entity."""
     random.seed(0)
     if model is not None:
@@ -136,19 +151,19 @@ def main(model=None, new_model_name="training", output_dir='/home/omkarpathak27/
         print("Created blank 'en' model")
     # Add entity recognizer to model if it's not in the pipeline
     # nlp.create_pipe works for built-ins that are registered with spaCy
-    reset_weights = False
+
     if "ner" not in nlp.pipe_names:
         print("Creating new pipe")
         ner = nlp.create_pipe("ner")
         nlp.add_pipe(ner, last=True)
-        reset_weights = True
+
     # otherwise, get it, so we can add labels to it
     else:
         ner = nlp.get_pipe("ner")
 
     # add labels
     for _, annotations in TRAIN_DATA:
-         for ent in annotations.get('entities'):
+        for ent in annotations.get('entities'):
             ner.add_label(ent[2])
 
     # if model is None or reset_weights:
