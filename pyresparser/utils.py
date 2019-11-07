@@ -363,25 +363,20 @@ def extract_mobile_number(text):
     '''
     # Found this complicated regex on :
     # https://zapier.com/blog/extract-links-email-phone-regex/
-    phone = re.findall(
-        re.compile(
-            r'''(?:(?:\+?([1-9]|[0-9][0-9]|
-            [0-9][0-9][0-9])\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|
-            [2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([0-9][1-9]|
-            [0-9]1[02-9]|[2-9][02-8]1|
-            [2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|
-            [2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{7})
-            (?:\s*(?:#|x\.?|ext\.?|
-            extension)\s*(\d+))?'''
-        ),
-        text
-    )
+    # mob_num_regex = r'''(?:(?:\+?([1-9]|[0-9][0-9]|
+    #     [0-9][0-9][0-9])\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|
+    #     [2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([0-9][1-9]|
+    #     [0-9]1[02-9]|[2-9][02-8]1|
+    #     [2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|
+    #     [2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{7})
+    #     (?:\s*(?:#|x\.?|ext\.?|
+    #     extension)\s*(\d+))?'''
+    mob_num_regex = r'''(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)
+                        [-\.\s]*\d{3}[-\.\s]??\d{4}|\d{3}[-\.\s]??\d{4})'''
+    phone = re.findall(re.compile(mob_num_regex), text)
     if phone:
         number = ''.join(phone[0])
-        if len(number) > 10:
-            return '+' + number
-        else:
-            return number
+        return number
 
 
 def extract_skills(nlp_text, noun_chunks, skills_file=None):
