@@ -15,7 +15,7 @@ install:
   - pip install codecov
   - pip install flake8
 before_script:
-  - "flake8 ."
+  - "flake8 pyresparser"
 script:
   - "coverage run -m pytest"
 after_success:
