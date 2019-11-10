@@ -52,7 +52,7 @@ class ResumeParserCli(object):
            - By Omkar Pathak (omkarpathak27@gmail.com)
         '''
         print(banner_string)
-    
+
     def export_data(self, exported_data, args):
         '''function to export resume data in specified format
         '''
@@ -159,7 +159,7 @@ def resume_result_wrapper(args):
 
 def main():
     cli_obj = ResumeParserCli()
-    print(cli_obj.extract_resume_data())
+    pprint(cli_obj.extract_resume_data())
 
 # if __name__ == "__main__":
 #     main()
