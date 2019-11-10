@@ -1,6 +1,7 @@
 # Author: Omkar Pathak
 
 import os
+import json
 import argparse
 from pprint import pprint
 import io
@@ -35,7 +36,10 @@ class ResumeParserCli(object):
             '--skillsfile',
             help="custom skills CSV file against \
                   which skills are searched for")
-        self.__banner()
+        self.__parser.add_argument(
+            '-e',
+            '--export-format',
+            help="the information export format (json)")
 
     def __banner(self):
         banner_string = r'''
@@ -48,25 +52,54 @@ class ResumeParserCli(object):
            - By Omkar Pathak (omkarpathak27@gmail.com)
         '''
         print(banner_string)
+    
+    def export_data(self, exported_data, args):
+        '''function to export resume data in specified format
+        '''
+        if args.export_format:
+            if args.export_format == 'json':
+                json_data = json.dumps(exported_data)
+                return json_data
+        else:
+            return exported_data
 
     def extract_resume_data(self):
         args = self.__parser.parse_args()
 
+        if not args.export_format:
+            self.__banner()
+
         if args.remotefile:
-            return self.__extract_from_remote_file(args.remotefile)
+            return self.export_data(
+                self.__extract_from_remote_file(args.remotefile),
+                args
+            )
+
         if args.file and not args.directory:
             if args.skillsfile:
-                return self.__extract_from_file(args.file, args.skillsfile)
-            else:
-                return self.__extract_from_file(args.file)
-        elif args.directory and not args.file:
-            if args.skillsfile:
-                return self.__extract_from_directory(
-                    args.directory,
-                    args.skillsfile
+                return self.export_data(
+                    self.__extract_from_file(args.file, args.skillsfile),
+                    args
                 )
             else:
-                return self.__extract_from_directory(args.directory)
+                return self.export_data(
+                    self.__extract_from_file(args.file),
+                    args
+                )
+        elif args.directory and not args.file:
+            if args.skillsfile:
+                return self.export_data(
+                    self.__extract_from_directory(
+                        args.directory,
+                        args.skillsfile
+                    ),
+                    args
+                )
+            else:
+                return self.export_data(
+                    self.__extract_from_directory(args.directory),
+                    args
+                )
         else:
             self.__parser.print_help()
 
@@ -126,4 +159,7 @@ def resume_result_wrapper(args):
 
 def main():
     cli_obj = ResumeParserCli()
-    pprint(cli_obj.extract_resume_data())
+    print(cli_obj.extract_resume_data())
+
+# if __name__ == "__main__":
+#     main()
