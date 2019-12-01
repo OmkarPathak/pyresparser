@@ -32,6 +32,10 @@ class ResumeParserCli(object):
             '--remotefile',
             help="remote path for resume file to be extracted")
         self.__parser.add_argument(
+            '-re',
+            '--custom-regex',
+            help="custom regex for parsing mobile numbers")
+        self.__parser.add_argument(
             '-sf',
             '--skillsfile',
             help="custom skills CSV file against \
@@ -71,50 +75,49 @@ class ResumeParserCli(object):
 
         if args.remotefile:
             return self.export_data(
-                self.__extract_from_remote_file(args.remotefile),
+                self.__extract_from_remote_file(
+                    args.remotefile,
+                    args.skillsfile,
+                    args.custom_regex
+                ),
                 args
             )
 
         if args.file and not args.directory:
-            if args.skillsfile:
-                return self.export_data(
-                    self.__extract_from_file(args.file, args.skillsfile),
-                    args
-                )
-            else:
-                return self.export_data(
-                    self.__extract_from_file(args.file),
-                    args
-                )
+            return self.export_data(
+                self.__extract_from_file(
+                    args.file,
+                    args.skillsfile,
+                    args.custom_regex
+                ),
+                args
+            )
         elif args.directory and not args.file:
-            if args.skillsfile:
-                return self.export_data(
-                    self.__extract_from_directory(
-                        args.directory,
-                        args.skillsfile
-                    ),
-                    args
-                )
-            else:
-                return self.export_data(
-                    self.__extract_from_directory(args.directory),
-                    args
-                )
+            return self.export_data(
+                self.__extract_from_directory(
+                    args.directory,
+                    args.skillsfile,
+                    args.custom_regex
+                ),
+                args
+            )
         else:
             self.__parser.print_help()
 
-    def __extract_from_file(self, file, skills_file=None):
+    def __extract_from_file(self, file, skills_file=None, custom_regex=None):
         if os.path.exists(file):
             print_cyan('Extracting data from: {}'.format(file))
-            if skills_file:
-                resume_parser = ResumeParser(file, skills_file)
-            else:
-                resume_parser = ResumeParser(file)
+            resume_parser = ResumeParser(file, skills_file, custom_regex)
             return [resume_parser.get_extracted_data()]
         else:
             return 'File not found. Please provide a valid file name.'
 
-    def __extract_from_directory(self, directory, skills_file=None):
+    def __extract_from_directory(
+        self,
+        directory,
+        skills_file=None,
+        custom_regex=None
+    ):
         if os.path.exists(directory):
             pool = mp.Pool(mp.cpu_count())
 
@@ -122,10 +125,7 @@ class ResumeParserCli(object):
             for root, _, filenames in os.walk(directory):
                 for filename in filenames:
                     file = os.path.join(root, filename)
-                    if skills_file:
-                        resumes.append([file, skills_file])
-                    else:
-                        resumes.append(file)
+                    resumes.append([file, skills_file, custom_regex])
             results = pool.map(resume_result_wrapper, resumes)
             pool.close()
             pool.join()
@@ -134,26 +134,27 @@ class ResumeParserCli(object):
         else:
             return 'Directory not found. Please provide a valid directory.'
 
-    def __extract_from_remote_file(self, remote_file):
+    def __extract_from_remote_file(
+        self,
+        remote_file,
+        skills_file,
+        custom_regex
+    ):
         try:
             print_cyan('Extracting data from: {}'.format(remote_file))
             req = Request(remote_file, headers={'User-Agent': 'Mozilla/5.0'})
             webpage = urlopen(req).read()
             _file = io.BytesIO(webpage)
             _file.name = remote_file.split('/')[-1]
-            resume_parser = ResumeParser(_file)
+            resume_parser = ResumeParser(_file, skills_file, custom_regex)
             return [resume_parser.get_extracted_data()]
         except urllib.error.HTTPError:
             return 'File not found. Please provide correct URL for resume file'
 
 
 def resume_result_wrapper(args):
-    if len(args) == 2:
-        print_cyan('Extracting data from: {}'.format(args[0]))
-        parser = ResumeParser(args[0], args[1])
-    else:
-        print_cyan('Extracting data from: {}'.format(args))
-        parser = ResumeParser(args)
+    print_cyan('Extracting data from: {}'.format(args[0]))
+    parser = ResumeParser(args[0], args[1], args[2])
     return parser.get_extracted_data()
 
 
@@ -161,5 +162,5 @@ def main():
     cli_obj = ResumeParserCli()
     pprint(cli_obj.extract_resume_data())
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+     main()

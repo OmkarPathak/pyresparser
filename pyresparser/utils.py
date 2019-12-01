@@ -354,7 +354,7 @@ def extract_name(nlp_text, matcher):
             return span.text
 
 
-def extract_mobile_number(text):
+def extract_mobile_number(text, custom_regex=None):
     '''
     Helper function to extract mobile number from text
 
@@ -371,9 +371,12 @@ def extract_mobile_number(text):
     #     [2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{7})
     #     (?:\s*(?:#|x\.?|ext\.?|
     #     extension)\s*(\d+))?'''
-    mob_num_regex = r'''(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)
+    if not custom_regex:
+        mob_num_regex = r'''(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)
                         [-\.\s]*\d{3}[-\.\s]??\d{4}|\d{3}[-\.\s]??\d{4})'''
-    phone = re.findall(re.compile(mob_num_regex), text)
+        phone = re.findall(re.compile(mob_num_regex), text)
+    else:
+        phone = re.findall(re.compile(custom_regex), text)
     if phone:
         number = ''.join(phone[0])
         return number

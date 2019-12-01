@@ -11,10 +11,16 @@ from . import utils
 
 class ResumeParser(object):
 
-    def __init__(self, resume, skills_file=None):
+    def __init__(
+        self,
+        resume,
+        skills_file=None,
+        custom_regex=None
+    ):
         nlp = spacy.load('en_core_web_sm')
         custom_nlp = spacy.load(os.path.dirname(os.path.abspath(__file__)))
         self.__skills_file = skills_file
+        self.__custom_regex = custom_regex
         self.__matcher = Matcher(nlp.vocab)
         self.__details = {
             'name': None,
@@ -50,7 +56,7 @@ class ResumeParser(object):
                         )
         name = utils.extract_name(self.__nlp, matcher=self.__matcher)
         email = utils.extract_email(self.__text)
-        mobile = utils.extract_mobile_number(self.__text)
+        mobile = utils.extract_mobile_number(self.__text, self.__custom_regex)
         skills = utils.extract_skills(
                     self.__nlp,
                     self.__noun_chunks,
