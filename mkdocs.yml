@@ -1,0 +1,4 @@
+site_name: pyresparser
+nav:
+    - Home: index.md
+    - CLI: cli.md
