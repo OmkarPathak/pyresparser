@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="None">
         
         
-        <link rel="shortcut icon" href="img/favicon.ico">
-        <title>pyresparser</title>
-        <link href="css/bootstrap-custom.min.css" rel="stylesheet">
-        <link href="css/font-awesome.min.css" rel="stylesheet">
-        <link href="css/base.css" rel="stylesheet">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>CLI - pyresparser</title>
+        <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -19,13 +19,13 @@
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-        <script src="js/jquery-1.10.2.min.js" defer></script>
-        <script src="js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap-3.0.3.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
-    <body class="homepage">
+    <body>
 
         <div class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
@@ -39,18 +39,18 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href=".">pyresparser</a>
+                    <a class="navbar-brand" href="..">pyresparser</a>
                 </div>
 
                 <!-- Expanded navigation -->
                 <div class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li class="active">
-                                <a href=".">Home</a>
-                            </li>
                             <li >
-                                <a href="cli/">CLI</a>
+                                <a href="..">Home</a>
+                            </li>
+                            <li class="active">
+                                <a href="./">CLI</a>
                             </li>
                         </ul>
 
@@ -60,13 +60,13 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li class="disabled">
-                                <a rel="next" >
+                            <li >
+                                <a rel="next" href="..">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li >
-                                <a rel="prev" href="cli/">
+                            <li class="disabled">
+                                <a rel="prev" >
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -78,112 +78,56 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#pyresparser">Pyresparser</a></li>
-        <li class="main "><a href="#features">Features</a></li>
-        <li class="main "><a href="#getting-started">Getting Started</a></li>
-            <li><a href="#installation">Installation</a></li>
-            <li><a href="#usage">Usage</a></li>
-            <li><a href="#result">Result</a></li>
-            <li><a href="#supported-resume-file-formats">Supported Resume File Formats</a></li>
-        <li class="main "><a href="#advanced-options">Advanced Options</a></li>
-            <li><a href="#explicitly-specifying-skills-file">Explicitly specifying skills file</a></li>
-            <li><a href="#explicitly-providing-regex-to-parse-phone-numbers">Explicitly providing regex to parse phone numbers</a></li>
+        <li class="main active"><a href="#cli">CLI</a></li>
+            <li><a href="#parsing-single-resume">Parsing single resume</a></li>
+            <li><a href="#parsing-mutliple-resumes">Parsing mutliple resumes</a></li>
+            <li><a href="#parsing-hosted-resumes">Parsing hosted resumes</a></li>
+            <li><a href="#specifying-skills-explicitly">Specifying skills explicitly</a></li>
+            <li><a href="#specifying-export-format">Specifying export format</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="pyresparser">Pyresparser</h1>
-<p>A simple resume parser used for extracting information from resumes</p>
-<h1 id="features">Features</h1>
-<ul>
-<li>Extract name</li>
-<li>Extract email</li>
-<li>Extract mobile numbers</li>
-<li>Extract skills</li>
-<li>Extract total experience</li>
-<li>Extract college name</li>
-<li>Extract degree</li>
-<li>Extract designation</li>
-<li>Extract company names</li>
-</ul>
-<h1 id="getting-started">Getting Started</h1>
-<h2 id="installation">Installation</h2>
-<ul>
-<li>You can install this package using</li>
-</ul>
-<pre><code class="bash">pip install pyresparser
+<h1 id="cli">CLI</h1>
+<p><code>pyresparser</code> comes with a <strong>cli</strong> option which you can use right away in your terminal</p>
+<pre><code class="bash">usage: pyresparser [-h] [-f FILE] [-d DIRECTORY] [-r REMOTEFILE]
+                   [-sf SKILLSFILE]
+
+optional arguments:
+  -h, --help                                show this help message and exit
+  -f FILE, --file FILE                      resume file to be extracted
+  -d DIRECTORY, --directory DIRECTORY       directory containing all the resumes to be extracted
+  -r REMOTEFILE, --remotefile REMOTEFILE    remote path for resume file to be extracted
+  -sf SKILLSFILE, --skillsfile SKILLSFILE   custom skills CSV file against which skills are searched for
 </code></pre>
 
-<ul>
-<li>For NLP operations we use spacy and nltk. Install them using below commands:</li>
-</ul>
-<pre><code class="bash"># spaCy
-python -m spacy download en_core_web_sm
-
-# nltk
-python -m nltk.downloader words
+<h2 id="parsing-single-resume">Parsing single resume</h2>
+<p>For extracting data from a <strong>single resume</strong> file, use</p>
+<pre><code class="bash">pyresparser -f /path/to/resume/file
 </code></pre>
 
-<h2 id="usage">Usage</h2>
-<ul>
-<li>Import it in your Python project</li>
-</ul>
-<pre><code class="python">from pyresparser import ResumeParser
-data = ResumeParser('/path/to/resume/file').get_extracted_data()
+<h2 id="parsing-mutliple-resumes">Parsing mutliple resumes</h2>
+<p>For extracting data from several resumes, place them in a <strong>directory</strong> and then execute</p>
+<pre><code class="bash">pyresparser -d /path/to/resume/directory/
 </code></pre>
 
-<h2 id="result">Result</h2>
-<p>The module would return a list of dictionary objects with result as follows:</p>
-<pre><code>[
-  {
-    'college_name': ['Marathwada Mitra Mandal’s College of Engineering'],
-    'company_names': None,
-    'degree': ['B.E. IN COMPUTER ENGINEERING'],
-    'designation': ['Manager',
-                    'TECHNICAL CONTENT WRITER',
-                    'DATA ENGINEER'],
-    'email': 'omkarpathak27@gmail.com',
-    'mobile_number': '8087996634',
-    'name': 'Omkar Pathak',
-    'no_of_pages': 3,
-    'skills': ['Operating systems',
-              'Linux',
-              'Github',
-              'Testing',
-              'Content',
-              'Automation',
-              'Python',
-              'Css',
-              'Website',
-              'Django',
-              'Opencv',
-              'Programming',
-              'C',
-              ...],
-    'total_experience': 1.83
-  }
-]
+<h2 id="parsing-hosted-resumes">Parsing hosted resumes</h2>
+<p>For extracting data from <strong>remote resumes</strong>, execute</p>
+<pre><code class="bash">pyresparser -r https://www.example.com/path/to/resume/file
 </code></pre>
 
-<h2 id="supported-resume-file-formats">Supported Resume File Formats</h2>
-<ul>
-<li>Parsing of PDF and DOCx files are supported on all Operating Systems</li>
-<li>If you want to parse DOC files you can install <a href="https://textract.readthedocs.io/en/stable/installation.html">textract</a> for your OS (Linux, MacOS)</li>
-<li>Note: You just have to install textract (and nothing else) and doc files will get parsed easily</li>
-</ul>
-<h1 id="advanced-options">Advanced Options</h1>
-<h2 id="explicitly-specifying-skills-file">Explicitly specifying skills file</h2>
+<h2 id="specifying-skills-explicitly">Specifying skills explicitly</h2>
 <p>Pyresparser comes with built-in skills file that defaults to many technical skills. You can find the default skills file <a href="https://github.com/OmkarPathak/pyresparser/blob/master/pyresparser/skills.csv">here</a>.</p>
-<p>For extracting data against your specified skills, create a CSV file with no headers.</p>
-<pre><code class="python">from pyresparser import ResumeParser
-data = ResumeParser('/path/to/resume/file', skills_file='/path/to/skills.csv').get_extracted_data()
+<p>For extracting data against your specified skills, create a CSV file with no headers and execute</p>
+<pre><code class="bash">pyresparser -sf /path/to/resume/file.csv -f /path/to/resume/file
 </code></pre>
 
-<h2 id="explicitly-providing-regex-to-parse-phone-numbers">Explicitly providing regex to parse phone numbers</h2>
-<p>While pyresparser parses most of the phone numbers correctly, there is a possibility of new patterns being added in near future. Hence, we can explicitly provide the regex required to parse the desired phone numbers. This can be done using</p>
-<pre><code class="python">from pyresparser import ResumeParser
-data = ResumeParser('/path/to/resume/file', custom_regex='pattern').get_extracted_data()
-</code></pre></div>
+<h2 id="specifying-export-format">Specifying export format</h2>
+<p>For specifying the export format you can use the following option:</p>
+<pre><code class="bash">pyresparser -e json -f /path/to/resume/file
+</code></pre>
+
+<p>Note: Currently only JSON export is supported</p></div>
         </div>
 
         <footer class="col-md-12">
@@ -191,11 +135,11 @@ data = ResumeParser('/path/to/resume/file', custom_regex='pattern').get_extracte
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
         <script>
-            var base_url = ".",
+            var base_url = "..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="js/base.js" defer></script>
-        <script src="search/main.js" defer></script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
     <div class="modal-dialog">
@@ -263,8 +207,3 @@ data = ResumeParser('/path/to/resume/file', custom_regex='pattern').get_extracte
 
     </body>
 </html>
-
-<!--
-MkDocs version : 1.0.4
-Build Date UTC : 2019-12-14 02:40:00
--->
