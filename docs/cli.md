@@ -57,3 +57,11 @@ pyresparser -e json -f /path/to/resume/file
 ```
 
 Note: Currently only JSON export is supported
+
+## Custom regex for parsing phone numbers
+
+While pyresparser parses most of the phone numbers correctly, there is a possibility of new patterns being added in near future. Hence, we can explicitly provide the regex required to parse the desired phone numbers. This can be done using
+
+```bash
+pyresparser -re '<pattern>' -f /path/to/resume/file
+```

@@ -45,6 +45,10 @@ python -m spacy download en_core_web_sm
 python -m nltk.downloader words
 ```
 
+# Documentation
+
+Official documentation is available at: https://www.omkarpathak.in/pyresparser/
+
 # Supported File Formats
 
 - PDF and DOCx files are supported on all Operating Systems
@@ -66,38 +70,22 @@ For running the resume extractor you can also use the `cli` provided
 
 ```bash
 usage: pyresparser [-h] [-f FILE] [-d DIRECTORY] [-r REMOTEFILE]
-                   [-sf SKILLSFILE]
+                   [-re CUSTOM_REGEX] [-sf SKILLSFILE] [-e EXPORT_FORMAT]
 
 optional arguments:
-  -h, --help                                show this help message and exit
-  -f FILE, --file FILE                      resume file to be extracted
-  -d DIRECTORY, --directory DIRECTORY       directory containing all the resumes to be extracted
-  -r REMOTEFILE, --remotefile REMOTEFILE    remote path for resume file to be extracted
-  -sf SKILLSFILE, --skillsfile SKILLSFILE   custom skills CSV file against which skills are searched for
-```
-
-For extracting data from a single resume file, use
-
-```bash
-pyresparser -f <resume_file_path>
-```
-
-For extracting data from several resumes, place them in a directory and then execute
-
-```bash
-pyresparser -d <resume_directory_path>
-```
-
-For extracting data from remote resumes, execute
-
-```bash
-pyresparser -r <path_to_remote_resume_file>
-```
-
-For extracting data against your specified skills, create a CSV file with no headers. Sample file can be found [here](pyresparser/skills.csv)
-
-```bash
-pyresparser -sf <path_to_custom_skills_file>
+  -h, --help            show this help message and exit
+  -f FILE, --file FILE  resume file to be extracted
+  -d DIRECTORY, --directory DIRECTORY
+                        directory containing all the resumes to be extracted
+  -r REMOTEFILE, --remotefile REMOTEFILE
+                        remote path for resume file to be extracted
+  -re CUSTOM_REGEX, --custom-regex CUSTOM_REGEX
+                        custom regex for parsing mobile numbers
+  -sf SKILLSFILE, --skillsfile SKILLSFILE
+                        custom skills CSV file against which skills are
+                        searched for
+  -e EXPORT_FORMAT, --export-format EXPORT_FORMAT
+                        the information export format (json)
 ```
 
 # Notes:
