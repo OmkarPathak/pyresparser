@@ -2,3 +2,10 @@ site_name: pyresparser
 nav:
     - Home: index.md
     - CLI: cli.md
+repo_url: https://github.com/OmkarPathak/pyresparser
+site_author: Omkar Pathak
+google_analytics: ['UA-111548790-1', 'omkarpathak.in']
+markdown_extensions:
+    - toc:
+        permalink: True
+        separator: "_"
