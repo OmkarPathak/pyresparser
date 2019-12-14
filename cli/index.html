@@ -96,6 +96,7 @@
             <li><a href="#parsing_hosted_resumes">Parsing hosted resumes</a></li>
             <li><a href="#specifying_skills_explicitly">Specifying skills explicitly</a></li>
             <li><a href="#specifying_export_format">Specifying export format</a></li>
+            <li><a href="#custom_regex_for_parsing_phone_numbers">Custom regex for parsing phone numbers</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -139,7 +140,11 @@ optional arguments:
 <pre><code class="bash">pyresparser -e json -f /path/to/resume/file
 </code></pre>
 
-<p>Note: Currently only JSON export is supported</p></div>
+<p>Note: Currently only JSON export is supported</p>
+<h2 id="custom_regex_for_parsing_phone_numbers">Custom regex for parsing phone numbers<a class="headerlink" href="#custom_regex_for_parsing_phone_numbers" title="Permanent link">&para;</a></h2>
+<p>While pyresparser parses most of the phone numbers correctly, there is a possibility of new patterns being added in near future. Hence, we can explicitly provide the regex required to parse the desired phone numbers. This can be done using</p>
+<pre><code class="bash">pyresparser -re '&lt;pattern&gt;' -f /path/to/resume/file
+</code></pre></div>
         </div>
 
         <footer class="col-md-12">
