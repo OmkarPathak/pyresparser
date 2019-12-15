@@ -1,7 +1,17 @@
 pyresparser
 ===========
 
-A simple resume parser used for extracting information from resumes
+::
+
+    A simple resume parser used for extracting information from resumes
+
+Built with ❤︎ and :coffee: by `Omkar
+Pathak <https://github.com/OmkarPathak>`__
+
+--------------
+
+|GitHub stars| |PyPI| |Downloads| |GitHub| |PyPI - Python Version| |Say
+Thanks!| |Build Status| |codecov|
 
 Features
 ========
@@ -11,8 +21,10 @@ Features
 -  Extract mobile numbers
 -  Extract skills
 -  Extract total experience
--  Extract education (not very accurate as of now)
--  Extract experience (not very accurate as of now)
+-  Extract college name
+-  Extract degree
+-  Extract designation
+-  Extract company names
 
 Installation
 ============
@@ -34,6 +46,12 @@ Installation
     # nltk
     python -m nltk.downloader words
 
+Documentation
+=============
+
+Official documentation is available at:
+https://www.omkarpathak.in/pyresparser/
+
 Supported File Formats
 ======================
 
@@ -44,6 +62,16 @@ Supported File Formats
 -  Note: You just have to install textract (and nothing else) and doc
    files will get parsed easily
 
+Usage
+=====
+
+-  Import it in your Python project
+
+.. code:: python
+
+    from pyresparser import ResumeParser
+    data = ResumeParser('/path/to/resume/file').get_extracted_data()
+
 CLI
 ===
 
@@ -51,32 +79,23 @@ For running the resume extractor you can also use the ``cli`` provided
 
 .. code:: bash
 
-    usage: pyresparser [-h] [-f FILE] [-d DIRECTORY]
+    usage: pyresparser [-h] [-f FILE] [-d DIRECTORY] [-r REMOTEFILE]
+                       [-re CUSTOM_REGEX] [-sf SKILLSFILE] [-e EXPORT_FORMAT]
 
     optional arguments:
-      -h, --help                              show this help message and exit
-      -f FILE, --file FILE                    resume file to be extracted
-      -d DIRECTORY, --directory DIRECTORY     directory containing all the resumes to be extracted
-      -r REMOTEFILE, --remotefile REMOTEFILE  remote path for resume file to be extracted
-
-For extracting data from a single resume file, use
-
-.. code:: bash
-
-    pyresparser -f <resume_file_path>
-
-For extracting data from several resumes, place them in a directory and
-then execute
-
-.. code:: bash
-
-    pyresparser -d <resume_directory_path>
-
-For extracting data from remote resumes, execute
-
-.. code:: bash
-
-    pyresparser -r <path_to_remote_resume_file>
+      -h, --help            show this help message and exit
+      -f FILE, --file FILE  resume file to be extracted
+      -d DIRECTORY, --directory DIRECTORY
+                            directory containing all the resumes to be extracted
+      -r REMOTEFILE, --remotefile REMOTEFILE
+                            remote path for resume file to be extracted
+      -re CUSTOM_REGEX, --custom-regex CUSTOM_REGEX
+                            custom regex for parsing mobile numbers
+      -sf SKILLSFILE, --skillsfile SKILLSFILE
+                            custom skills CSV file against which skills are
+                            searched for
+      -e EXPORT_FORMAT, --export-format EXPORT_FORMAT
+                            the information export format (json)
 
 Notes:
 ======
@@ -93,33 +112,33 @@ follows:
 ::
 
     [
-        {
-            'college_name': ['Marathwada Mitra Mandal’s College of Engineering'],
-            'company_names': None,
-            'degree': ['B.E. IN COMPUTER ENGINEERING'],
-            'designation': ['Manager',
-                            'TECHNICAL CONTENT WRITER',
-                            'DATA ENGINEER'],
-            'email': 'omkarpathak27@gmail.com',
-            'mobile_number': '8087996634',
-            'name': 'Omkar Pathak',
-            'no_of_pages': 3,
-            'skills': ['Operating systems',
-                        'Linux',
-                        'Github',
-                        'Testing',
-                        'Content',
-                        'Automation',
-                        'Python',
-                        'Css',
-                        'Website',
-                        'Django',
-                        'Opencv',
-                        'Programming',
-                        'C',
-                        ...],
-            'total_experience': 1.83
-        }
+      {
+        'college_name': ['Marathwada Mitra Mandal’s College of Engineering'],
+        'company_names': None,
+        'degree': ['B.E. IN COMPUTER ENGINEERING'],
+        'designation': ['Manager',
+                        'TECHNICAL CONTENT WRITER',
+                        'DATA ENGINEER'],
+        'email': 'omkarpathak27@gmail.com',
+        'mobile_number': '8087996634',
+        'name': 'Omkar Pathak',
+        'no_of_pages': 3,
+        'skills': ['Operating systems',
+                  'Linux',
+                  'Github',
+                  'Testing',
+                  'Content',
+                  'Automation',
+                  'Python',
+                  'Css',
+                  'Website',
+                  'Django',
+                  'Opencv',
+                  'Programming',
+                  'C',
+                  ...],
+        'total_experience': 1.83
+      }
     ]
 
 References that helped me get here
@@ -131,15 +150,15 @@ References that helped me get here
 
 -  [https://medium.com/@divalicious.priya/information-extraction-from-cv-acec216c3f48](https://medium.com/@divalicious.priya/information-extraction-from-cv-acec216c3f48)
 
-Built with ♥ and :coffee: by ```Omkar Pathak`` <http://www.omkarpathak.in/>`__
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-  **Special thanks** to dataturks for their `annotated
+   dataset <https://dataturks.com/blog/named-entity-recognition-in-resumes.php>`__
 
 Donation
 ========
 
 If you have found my softwares to be of any use to you, do consider
 helping me pay my internet bills. This would encourage me to create many
-such softwares :)
+such softwares :smile:
 
 +-----------+----+
 | PayPal    |    |
@@ -147,3 +166,25 @@ such softwares :)
 | ₹ (INR)   |    |
 +-----------+----+
 
+Stargazer over time
+===================
+
+|Stargazers over time|
+
+.. |GitHub stars| image:: https://img.shields.io/github/stars/OmkarPathak/pyresparser.svg
+   :target: https://github.com/OmkarPathak/pyresparser/stargazers
+.. |PyPI| image:: https://img.shields.io/pypi/v/pyresparser.svg
+   :target: https://pypi.org/project/pyresparser/
+.. |Downloads| image:: https://pepy.tech/badge/pyresparser
+   :target: https://pepy.tech/project/pyresparser
+.. |GitHub| image:: https://img.shields.io/github/license/omkarpathak/pyresparser.svg
+   :target: https://github.com/OmkarPathak/pyresparser/blob/master/LICENSE
+.. |PyPI - Python Version| image:: https://img.shields.io/pypi/pyversions/Django.svg
+.. |Say Thanks!| image:: https://img.shields.io/badge/Say%20Thanks-:D-1EAEDB.svg
+   :target: https://saythanks.io/to/OmkarPathak
+.. |Build Status| image:: https://travis-ci.com/OmkarPathak/pyresparser.svg?branch=master
+   :target: https://travis-ci.com/OmkarPathak/pyresparser
+.. |codecov| image:: https://codecov.io/gh/OmkarPathak/pyresparser/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/OmkarPathak/pyresparser
+.. |Stargazers over time| image:: https://starchart.cc/OmkarPathak/pyresparser.svg
+   :target: https://starchart.cc/OmkarPathak/pyresparser
