@@ -45,8 +45,8 @@ resume = requests.get(url)
 
 f = open('dummy_res.pdf', 'wb').write(resume.content)
         
-data = ResumeParser('dummy_res.pdf').get_extracted_data()
-#data = ResumeParser('OmkarResume.pdf').get_extracted_data()
+#data = ResumeParser('dummy_res.pdf').get_extracted_data()
+data = ResumeParser('OmkarResume.pdf').get_extracted_data()
 
 keys_list = list(data.keys())
 
