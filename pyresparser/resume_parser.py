@@ -46,6 +46,7 @@ class ResumeParser(object):
         self.__custom_nlp = custom_nlp(self.__text_raw)
         self.__noun_chunks = list(self.__nlp.noun_chunks)
         self.__get_basic_details()
+        # print('text raw',self.__text_raw)
 
     def get_extracted_data(self):
         return self.__details

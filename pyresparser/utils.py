@@ -10,84 +10,107 @@ from datetime import datetime
 from dateutil import relativedelta
 from . import constants as cs
 from pdfminer.converter import TextConverter
-from pdfminer.pdfinterp import PDFPageInterpreter
-from pdfminer.pdfinterp import PDFResourceManager
-from pdfminer.layout import LAParams
-from pdfminer.pdfpage import PDFPage
 from pdfminer.pdfparser import PDFSyntaxError
+from pdfminer.layout import LAParams
+from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+from pdfminer.converter import PDFPageAggregator
+from pdfminer.pdfpage import PDFPage
+from pdfminer.layout import LTTextBoxHorizontal
+
+
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 
 
+# def extract_text_from_pdf(pdf_path):
+#     '''
+#     Helper function to extract the plain text from .pdf files
+
+#     :param pdf_path: path to PDF file to be extracted (remote or local)
+#     :return: iterator of string of extracted text
+#     '''
+#     # https://www.blog.pythonlibrary.org/2018/05/03/exporting-data-from-pdfs-with-python/
+#     if not isinstance(pdf_path, io.BytesIO):
+#         # extract text from local pdf file
+#         with open(pdf_path, 'rb') as fh:
+#             try:
+#                 for page in PDFPage.get_pages(
+#                         fh,
+#                         caching=True,
+#                         check_extractable=True
+#                 ):
+#                     resource_manager = PDFResourceManager()
+#                     fake_file_handle = io.StringIO()
+#                     converter = TextConverter(
+#                         resource_manager,
+#                         fake_file_handle,
+#                         codec='utf-8',
+#                         laparams=LAParams()
+#                     )
+#                     page_interpreter = PDFPageInterpreter(
+#                         resource_manager,
+#                         converter
+#                     )
+#                     page_interpreter.process_page(page)
+
+#                     text = fake_file_handle.getvalue()
+#                     yield text
+
+#                     # close open handles
+#                     converter.close()
+#                     fake_file_handle.close()
+#             except PDFSyntaxError:
+#                 return
+#     else:
+#         # extract text from remote pdf file
+#         try:
+#             for page in PDFPage.get_pages(
+#                     pdf_path,
+#                     caching=True,
+#                     check_extractable=True
+#             ):
+#                 resource_manager = PDFResourceManager()
+#                 fake_file_handle = io.StringIO()
+#                 converter = TextConverter(
+#                     resource_manager,
+#                     fake_file_handle,
+#                     codec='utf-8',
+#                     laparams=LAParams()
+#                 )
+#                 page_interpreter = PDFPageInterpreter(
+#                     resource_manager,
+#                     converter
+#                 )
+#                 page_interpreter.process_page(page)
+
+#                 text = fake_file_handle.getvalue()
+#                 yield text
+
+#                 # close open handles
+#                 converter.close()
+#                 fake_file_handle.close()
+#         except PDFSyntaxError:
+#             return
+
 def extract_text_from_pdf(pdf_path):
-    '''
-    Helper function to extract the plain text from .pdf files
-
-    :param pdf_path: path to PDF file to be extracted (remote or local)
-    :return: iterator of string of extracted text
-    '''
-    # https://www.blog.pythonlibrary.org/2018/05/03/exporting-data-from-pdfs-with-python/
-    if not isinstance(pdf_path, io.BytesIO):
-        # extract text from local pdf file
-        with open(pdf_path, 'rb') as fh:
-            try:
-                for page in PDFPage.get_pages(
-                        fh,
-                        caching=True,
-                        check_extractable=True
-                ):
-                    resource_manager = PDFResourceManager()
-                    fake_file_handle = io.StringIO()
-                    converter = TextConverter(
-                        resource_manager,
-                        fake_file_handle,
-                        codec='utf-8',
-                        laparams=LAParams()
-                    )
-                    page_interpreter = PDFPageInterpreter(
-                        resource_manager,
-                        converter
-                    )
-                    page_interpreter.process_page(page)
-
-                    text = fake_file_handle.getvalue()
-                    yield text
-
-                    # close open handles
-                    converter.close()
-                    fake_file_handle.close()
-            except PDFSyntaxError:
-                return
-    else:
-        # extract text from remote pdf file
-        try:
-            for page in PDFPage.get_pages(
-                    pdf_path,
-                    caching=True,
-                    check_extractable=True
-            ):
-                resource_manager = PDFResourceManager()
-                fake_file_handle = io.StringIO()
-                converter = TextConverter(
-                    resource_manager,
-                    fake_file_handle,
-                    codec='utf-8',
-                    laparams=LAParams()
-                )
-                page_interpreter = PDFPageInterpreter(
-                    resource_manager,
-                    converter
-                )
-                page_interpreter.process_page(page)
-
-                text = fake_file_handle.getvalue()
-                yield text
-
-                # close open handles
-                converter.close()
-                fake_file_handle.close()
-        except PDFSyntaxError:
-            return
+    document = open(pdf_path, 'rb')
+    #Create resource manager
+    rsrcmgr = PDFResourceManager()
+    # Set parameters for analysis.
+    laparams = LAParams()
+    # Create a PDF page aggregator object.
+    device = PDFPageAggregator(rsrcmgr, laparams=laparams)
+    interpreter = PDFPageInterpreter(rsrcmgr, device)
+    for page in PDFPage.get_pages(document):
+        interpreter.process_page(page)
+        # receive the LTPage object for the page.
+        layout = device.get_result()
+        x0 = y0 = x1 = y1 = 0
+        tableColumns = []
+        for element in layout:
+            if isinstance(element, LTTextBoxHorizontal):
+                # print('>>>>',element.bbox[0], element.bbox[1])
+                yield element.get_text()     
 
 
 def get_number_of_pages(file_name):
@@ -169,6 +192,7 @@ def extract_text(file_path, extension):
         text = extract_text_from_docx(file_path)
     elif extension == '.doc':
         text = extract_text_from_doc(file_path)
+    print(text)
     return text
 
 
@@ -184,6 +208,8 @@ def extract_entity_sections_grad(text):
     # sections_in_resume = [i for i in text_split if i.lower() in sections]
     entities = {}
     key = False
+    print('grad cs',cs);
+    # print('text_split',text_split)
     for phrase in text_split:
         if len(phrase) == 1:
             p_key = phrase
@@ -193,11 +219,17 @@ def extract_entity_sections_grad(text):
             p_key = list(p_key)[0]
         except IndexError:
             pass
-        if p_key in cs.RESUME_SECTIONS_GRAD:
-            entities[p_key] = []
+        if p_key in cs.RESUME_SECTIONS_GRAD and phrase[0].isupper():
             key = p_key
+            print('key',key)
         elif key and phrase.strip():
-            entities[key].append(phrase)
+            try:
+                entities[key].append(phrase)
+            except KeyError:
+                entities[key] = []
+                entities[key].append(phrase)
+            # print('phrase', phrase)
+        
 
     # entity_key = False
     # for entity in entities.keys():
@@ -216,6 +248,7 @@ def extract_entity_sections_grad(text):
     # for entity in cs.RESUME_SECTIONS:
     #     if entity not in entities.keys():
     #         entities[entity] = None
+    # print('entities',entities)
     return entities
 
 
@@ -247,6 +280,7 @@ def get_total_experience(experience_list):
     '''
     exp_ = []
     for line in experience_list:
+        # print(line)
         experience = re.search(
             r'(?P<fmonth>\w+.\d+)\s*(\D|to)\s*(?P<smonth>\w+.\d+|present)',
             line,
@@ -254,6 +288,7 @@ def get_total_experience(experience_list):
         )
         if experience:
             exp_.append(experience.groups())
+            print(experience)
     total_exp = sum(
         [get_number_of_months_from_dates(i[0], i[2]) for i in exp_]
     )
@@ -302,6 +337,7 @@ def extract_entity_sections_professional(text):
     text_split = [i.strip() for i in text.split('\n')]
     entities = {}
     key = False
+    print('professional cs',cs);
     for phrase in text_split:
         if len(phrase) == 1:
             p_key = phrase
@@ -312,8 +348,10 @@ def extract_entity_sections_professional(text):
             p_key = list(p_key)[0]
         except IndexError:
             pass
-        if p_key in cs.RESUME_SECTIONS_PROFESSIONAL:
-            entities[p_key] = []
+        if p_key.lower() in cs.RESUME_SECTIONS_PROFESSIONAL and phrase[0].isupper():
+            # entities[p_key] = [] //two sections of experience
+            if not hasattr(entities, p_key):
+                entities[p_key] = []
             key = p_key
         elif key and phrase.strip():
             entities[key].append(phrase)

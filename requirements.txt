@@ -10,7 +10,7 @@ murmurhash==1.0.2
 nltk==3.4.5
 numpy==1.16.4
 pandas==0.24.2
-pdfminer.six==20181108
+pdfminer.six==20200124
 plac==0.9.6
 preshed==2.0.1
 pyrsistent==0.15.2
