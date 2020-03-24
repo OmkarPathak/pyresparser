@@ -192,7 +192,7 @@ def extract_text(file_path, extension):
         text = extract_text_from_docx(file_path)
     elif extension == '.doc':
         text = extract_text_from_doc(file_path)
-    print(text)
+    # print(text)
     return text
 
 
@@ -221,7 +221,7 @@ def extract_entity_sections_grad(text):
             pass
         if p_key in cs.RESUME_SECTIONS_GRAD and phrase[0].isupper():
             key = p_key
-            print('key',key)
+            # print('key',key)
         elif key and phrase.strip():
             try:
                 entities[key].append(phrase)
@@ -280,19 +280,29 @@ def get_total_experience(experience_list):
     '''
     exp_ = []
     for line in experience_list:
-        # print(line)
-        experience = re.search(
+        # print('>>>>>>>>>>>')
+        month_format = re.search(
             r'(?P<fmonth>\w+.\d+)\s*(\D|to)\s*(?P<smonth>\w+.\d+|present)',
             line,
             re.I
         )
-        if experience:
-            exp_.append(experience.groups())
-            print(experience)
+        if month_format:
+            exp_.append(month_format.groups())
+        else:
+            other_format = re.search(
+                r'((0[1-9]|1[0-2])(.|-|)(20[0-9][0-9]))\s*(\D|to)\s*((0[1-9]|1[0-2])(.|-|)(20[0-9][0-9])|present)',
+                line,
+                re.I
+            )
+            if other_format:
+                a = (other_format.groups()[0],"", other_format.groups()[5]) #just print other_format.groups() to find other groups it is capturing
+                exp_.append(a)
+       
     total_exp = sum(
         [get_number_of_months_from_dates(i[0], i[2]) for i in exp_]
     )
     total_experience_in_months = total_exp
+    print('total exp',total_experience_in_months)
     return total_experience_in_months
 
 
@@ -323,6 +333,7 @@ def get_number_of_months_from_dates(date1, date2):
                                 * 12 + months_of_experience.months)
     except ValueError:
         return 0
+    print('date1', date1, ' date2', date2, ' exp', months_of_experience)
     return months_of_experience
 
 
