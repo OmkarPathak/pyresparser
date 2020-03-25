@@ -279,6 +279,7 @@ def get_total_experience(experience_list):
     :return: total months of experience
     '''
     exp_ = []
+    total_exp_in_months = 0
     for line in experience_list:
         # print('>>>>>>>>>>>')
         month_format = re.search(
@@ -295,13 +296,15 @@ def get_total_experience(experience_list):
                 re.I
             )
             if other_format:
-                a = (other_format.groups()[0],"", other_format.groups()[5]) #just print other_format.groups() to find other groups it is capturing
-                exp_.append(a)
-       
+                # print(other_format.groups())
+                year_diff_in_month   = (int(other_format.groups()[8]) - int(other_format.groups()[3])) * 12
+                month_diff           = int(other_format.groups()[1])  - int(other_format.groups()[6])
+                total_exp_in_months += (year_diff_in_month + month_diff)
+                       
     total_exp = sum(
         [get_number_of_months_from_dates(i[0], i[2]) for i in exp_]
     )
-    total_experience_in_months = total_exp
+    total_experience_in_months = total_exp + total_exp_in_months
     print('total exp',total_experience_in_months)
     return total_experience_in_months
 
