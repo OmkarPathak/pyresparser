@@ -34,6 +34,7 @@ class ResumeParser(object):
             'company_names': None,
             'no_of_pages': None,
             'total_experience': None,
+            'location': None,
         }
         self.__resume = resume
         if not isinstance(self.__resume, io.BytesIO):
@@ -45,13 +46,13 @@ class ResumeParser(object):
         self.__nlp = nlp(self.__text)
         self.__custom_nlp = custom_nlp(self.__text_raw)
         self.__noun_chunks = list(self.__nlp.noun_chunks)
-        self.__get_basic_details()
+        self.__get_basic_details(nlp)
         # print('text raw',self.__text_raw)
 
     def get_extracted_data(self):
         return self.__details
 
-    def __get_basic_details(self):
+    def __get_basic_details(self, nlp):
         cust_ent = utils.extract_entities_wih_custom_model(
                             self.__custom_nlp
                         )
@@ -67,7 +68,7 @@ class ResumeParser(object):
         #               [sent.string.strip() for sent in self.__nlp.sents]
         #       )
         entities = utils.extract_entity_sections_grad(self.__text_raw)
-
+        location = utils.extract_location(nlp, self.__matcher, self.__text_raw)
         # extract name
         try:
             self.__details['name'] = cust_ent['Name'][0]
@@ -82,6 +83,9 @@ class ResumeParser(object):
 
         # extract skills
         self.__details['skills'] = skills
+
+        #extract location
+        self.__details['location'] = location
 
         # extract college name
         try:
