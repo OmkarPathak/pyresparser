@@ -16,6 +16,7 @@ from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.converter import PDFPageAggregator
 from pdfminer.pdfpage import PDFPage
 from pdfminer.layout import LTTextBoxHorizontal
+import pathlib
 
 
 from nltk.stem import WordNetLemmatizer
@@ -110,7 +111,7 @@ def extract_text_from_pdf(pdf_path):
         for element in layout:
             if isinstance(element, LTTextBoxHorizontal):
                 # print('>>>>',element.bbox[0], element.bbox[1])
-                yield element.get_text()     
+                yield element.get_text()
 
 
 def get_number_of_pages(file_name):
@@ -229,7 +230,7 @@ def extract_entity_sections_grad(text):
                 entities[key] = []
                 entities[key].append(phrase)
             # print('phrase', phrase)
-        
+
 
     # entity_key = False
     # for entity in entities.keys():
@@ -251,6 +252,59 @@ def extract_entity_sections_grad(text):
     # print('entities',entities)
     return entities
 
+
+def extract_location(nlp, location_matcher, raw_text):
+    print('in this func')
+    ###=======================  LOCATION MATCHER  ==================================
+    ##
+    ##
+#     nlp = spacy.load('en_core_web_sm')
+
+    # Pass Data theough NLP pipeline
+    document = nlp(raw_text)
+
+    # Making a List of Entities ( CHUNKS )
+    entities = document.ents
+
+    ##for entities in entities_list:
+    ##    for ent in entities:
+    ##        print(ent.text, ent.start_char, ent.end_char, ent.label_)
+
+
+    # Finding Locations in The PDF.
+    locations = []
+
+    for ent in entities:
+        if ent.label_ == 'GPE':
+            locations.append(ent.text)
+
+    while locations.count('\n'):
+        locations.remove('\n')
+    #print(locations)
+
+    current_path = pathlib.Path(__file__).parent.absolute()
+    locs_df = pd.read_csv( os.path.join(os.path.dirname(__file__), 'cities.csv'), header=None)
+
+    locs_dataset = list(locs_df[0].values)
+    locs_dataset.extend(list(set(locs_df[1].values)))
+
+#     location_matcher = Matcher(nlp.vocab)
+
+    for loc in locs_dataset:
+        pattern = [{'LOWER':loc.lower()}]
+        location_matcher.add(loc, None, pattern)
+
+    loc_matched = location_matcher(document)
+
+    loc_names = []
+    for i in loc_matched:
+        loc_names.append(nlp.vocab.strings[i[0]])
+
+    locations.extend(loc_names)
+
+    locations = list(set(locations))
+    print(locations)
+    return locations
 
 def extract_entities_wih_custom_model(custom_nlp_text):
     '''
@@ -300,7 +354,7 @@ def get_total_experience(experience_list):
                 year_diff_in_month   = (int(other_format.groups()[8]) - int(other_format.groups()[3])) * 12
                 month_diff           = int(other_format.groups()[1])  - int(other_format.groups()[6])
                 total_exp_in_months += (year_diff_in_month + month_diff)
-                       
+
     total_exp = sum(
         [get_number_of_months_from_dates(i[0], i[2]) for i in exp_]
     )
