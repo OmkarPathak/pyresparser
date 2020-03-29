@@ -5,6 +5,7 @@ import json
 import argparse
 from pprint import pprint
 import io
+import sys
 import multiprocessing as mp
 import urllib
 from urllib.request import Request, urlopen
@@ -44,6 +45,10 @@ class ResumeParserCli(object):
             '-e',
             '--export-format',
             help="the information export format (json)")
+        self.__parser.add_argument(
+            '-o',
+            '--export-filepath',
+            help="the export file path")
 
     def __banner(self):
         banner_string = r'''
@@ -62,16 +67,19 @@ class ResumeParserCli(object):
         '''
         if args.export_format:
             if args.export_format == 'json':
-                json_data = json.dumps(exported_data)
-                return json_data
+                with open(args.export_filepath, 'w') as fd:
+                    json.dump(exported_data, fd,sort_keys=True, indent=4)
+                    print('Data exported successfully at: ' + os.path.abspath(args.export_filepath))
+                    sys.exit(0)
         else:
             return exported_data
 
     def extract_resume_data(self):
         args = self.__parser.parse_args()
 
-        if not args.export_format:
-            self.__banner()
+        if args.export_format and not args.export_filepath:
+            print('Please specify output file path using -o option')
+            sys.exit(1)
 
         if args.remotefile:
             return self.export_data(
@@ -110,7 +118,8 @@ class ResumeParserCli(object):
             resume_parser = ResumeParser(file, skills_file, custom_regex)
             return [resume_parser.get_extracted_data()]
         else:
-            return 'File not found. Please provide a valid file name.'
+            print('File not found. Please provide a valid file name')
+            sys.exit(1)
 
     def __extract_from_directory(
         self,
@@ -132,7 +141,8 @@ class ResumeParserCli(object):
 
             return results
         else:
-            return 'Directory not found. Please provide a valid directory.'
+            print('Directory not found. Please provide a valid directory')
+            sys.exit(1)
 
     def __extract_from_remote_file(
         self,
@@ -149,7 +159,8 @@ class ResumeParserCli(object):
             resume_parser = ResumeParser(_file, skills_file, custom_regex)
             return [resume_parser.get_extracted_data()]
         except urllib.error.HTTPError:
-            return 'File not found. Please provide correct URL for resume file'
+            print('File not found. Please provide correct URL for resume file')
+            sys.exit(1)
 
 
 def resume_result_wrapper(args):
