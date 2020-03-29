@@ -68,8 +68,9 @@ class ResumeParserCli(object):
         if args.export_format:
             if args.export_format == 'json':
                 with open(args.export_filepath, 'w') as fd:
-                    json.dump(exported_data, fd,sort_keys=True, indent=4)
-                    print('Data exported successfully at: ' + os.path.abspath(args.export_filepath))
+                    json.dump(exported_data, fd, sort_keys=True, indent=4)
+                    abs_path = os.path.abspath(args.export_filepath)
+                    print('Data exported successfully at: ' + abs_path)
                     sys.exit(0)
         else:
             return exported_data

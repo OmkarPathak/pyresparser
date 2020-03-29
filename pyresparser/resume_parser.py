@@ -134,7 +134,7 @@ if __name__ == '__main__':
 
     resumes = []
     data = []
-    for root, directories, filenames in os.walk('/home/omkarpathak/Documents/GIT/pyresparser/resumes/'):
+    for root, directories, filenames in os.walk('resumes/'):
         for filename in filenames:
             file = os.path.join(root, filename)
             resumes.append(file)
