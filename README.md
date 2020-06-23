@@ -15,6 +15,8 @@ Built with ❤︎ and :coffee: by  [Omkar Pathak](https://github.com/OmkarPathak
 [![Build Status](https://travis-ci.com/OmkarPathak/pyresparser.svg?branch=master)](https://travis-ci.com/OmkarPathak/pyresparser)
 [![codecov](https://codecov.io/gh/OmkarPathak/pyresparser/branch/master/graph/badge.svg)](https://codecov.io/gh/OmkarPathak/pyresparser)
 
+![https://tracking.gitads.io/?repo=pyresparser](https://images.gitads.io/pyresparser)
+
 # Features
 
 - Extract name
