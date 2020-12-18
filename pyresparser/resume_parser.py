@@ -62,6 +62,7 @@ class ResumeParser(object):
                     self.__noun_chunks,
                     self.__skills_file
                 )
+        linkedin = utils.extract_linkedin(self.__text)
         # edu = utils.extract_education(
         #               [sent.string.strip() for sent in self.__nlp.sents]
         #       )
@@ -121,6 +122,8 @@ class ResumeParser(object):
         self.__details['no_of_pages'] = utils.get_number_of_pages(
                                             self.__resume
                                         )
+
+        self.__details['linkedin'] = linkedin
         return
 
 

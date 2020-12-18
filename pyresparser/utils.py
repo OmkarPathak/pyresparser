@@ -494,3 +494,17 @@ def extract_experience(resume_text):
         if x and 'experience' in x.lower()
     ]
     return x
+
+
+def extract_linkedin(text):
+    '''
+    Helper function to extract linkedin from text
+
+    :param text: plain text extracted from resume file
+    '''
+    linkedin = re.findall(r'([\s]+linkedin.com[^\s]+)', text)
+    if linkedin:
+        try:
+            return linkedin[0][0]
+        except IndexError:
+            return None
