@@ -42,4 +42,5 @@ def test_local_phone_number():
 
 def test_linkedin_url():
     data = get_remote_data()
-    assert '' == data[0]['linkedin']
+    # no valid linkedin url yet
+    assert None == data[0]['linkedin']
