@@ -42,4 +42,4 @@ def test_local_phone_number():
 
 def test_linkedin_url():
     data = get_remote_data()
-    assert 'linkedin.com/in/OmkarPathak' == data['linkedin']
+    assert '' == data[0]['linkedin']
