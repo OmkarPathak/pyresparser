@@ -153,6 +153,10 @@ def extract_text_from_doc(doc_path):
         return ' '
 
 
+def extract_text_from_string(string):
+    ''' Helper function to return input string for testing '''
+    return string
+
 def extract_text(file_path, extension):
     '''
     Wrapper function to detect the file extension and call text
@@ -162,6 +166,7 @@ def extract_text(file_path, extension):
     :param extension: extension of file `file_name`
     '''
     text = ''
+
     if extension == '.pdf':
         for page in extract_text_from_pdf(file_path):
             text += ' ' + page
@@ -169,6 +174,9 @@ def extract_text(file_path, extension):
         text = extract_text_from_docx(file_path)
     elif extension == '.doc':
         text = extract_text_from_doc(file_path)
+    else:
+        text = extract_text_from_string(file_path)
+
     return text
 
 
