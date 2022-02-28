@@ -46,7 +46,7 @@ setup(
         'requests>=2.22.0',
         'six>=1.12.0',
         'sortedcontainers>=2.1.0',
-        'spacy>=2.1.4',
+        'spacy>=2.1.4,<=2.3.5',
         'srsly>=0.0.7',
         'thinc>=7.0.4',
         'tqdm>=4.32.2',
