@@ -397,19 +397,20 @@ def extract_skills(nlp_text, noun_chunks, skills_file=None):
         )
     else:
         data = pd.read_csv(skills_file)
-    skills = list(data.columns.values)
-    skillset = []
+    all_skills = list(data.columns.values)
+    matching_skills = []
+    
     # check for one-grams
     for token in tokens:
-        if token.lower() in skills:
-            skillset.append(token)
+        if token.lower() in all_skills:
+            matching_skills.append(token)
 
     # check for bi-grams and tri-grams
     for token in noun_chunks:
         token = token.text.lower().strip()
-        if token in skills:
-            skillset.append(token)
-    return [i.capitalize() for i in set([i.lower() for i in skillset])]
+        if token in all_skills:
+            matching_skills.append(token)
+    return [i.capitalize() for i in set([i.lower() for i in matching_skills])]
 
 
 def cleanup(token, lower=True):
