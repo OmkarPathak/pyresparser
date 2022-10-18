@@ -51,7 +51,7 @@ class ResumeParser(object):
         return self.__details
 
     def __get_basic_details(self):
-        cust_ent = utils.extract_entities_wih_custom_model(
+        cust_ent = utils.extract_entities_with_custom_model(
                             self.__custom_nlp
                         )
         name = utils.extract_name(self.__nlp, matcher=self.__matcher)
