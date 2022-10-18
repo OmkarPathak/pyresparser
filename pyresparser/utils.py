@@ -219,7 +219,7 @@ def extract_entity_sections_grad(text):
     return entities
 
 
-def extract_entities_wih_custom_model(custom_nlp_text):
+def extract_entities_with_custom_model(custom_nlp_text):
     '''
     Helper function to extract different entities with custom
     trained model using SpaCy's NER
