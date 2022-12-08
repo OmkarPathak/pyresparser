@@ -1,6 +1,6 @@
 attrs==19.1.0
 blis==0.2.4
-certifi==2019.6.16
+certifi==2022.12.7
 chardet==3.0.4
 cymem==2.0.2
 docx2txt==0.7
