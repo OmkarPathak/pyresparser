@@ -1,5 +1,13 @@
 # pyresparser
 
+Hey guys, i just figured it out, after being stuck with the same error for a while. It's a version issue:
+```
+pip install nltk
+pip install --no-cache-dir spacy==2.3.5
+pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.3.1/en_core_web_sm-2.3.1.tar.gz
+pip install pyresparser
+```
+
 ```
 A simple resume parser used for extracting information from resumes
 ```
