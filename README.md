@@ -15,10 +15,6 @@ Built with ❤︎ and :coffee: by  [Omkar Pathak](https://github.com/OmkarPathak
 [![Build Status](https://travis-ci.com/OmkarPathak/pyresparser.svg?branch=master)](https://travis-ci.com/OmkarPathak/pyresparser)
 [![codecov](https://codecov.io/gh/OmkarPathak/pyresparser/branch/master/graph/badge.svg)](https://codecov.io/gh/OmkarPathak/pyresparser)
 
-**Pyresparser is being sponsored by the following tool; please help to support us by taking a look and signing up to a free trial**
-
-[![pyresparser](https://images.gitads.io/pyresparser)](https://tracking.gitads.io/?repo=pyresparser)
-
 # Features
 
 - Extract name
