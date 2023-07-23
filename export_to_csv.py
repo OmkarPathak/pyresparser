@@ -5,7 +5,7 @@ import csv
 import os
 
 result = []
-fields = ['filename', 'name', 'email', 'mobile_number', 'skills', 'total_experience', 'experience']
+fields = ['Date', 'Skills', 'Name', 'Contact Number', 'Email ID', 'Current Company', 'Experience', 'College Name', 'Filename']
 
 for root, directories, filenames in os.walk(sys.argv[1]):
     for filename in filenames:
@@ -18,16 +18,20 @@ for root, directories, filenames in os.walk(sys.argv[1]):
         skills = ', '.join(data.get('skills')) if data.get('skills') else []
         total_experience = str(data.get('total_experience'))
         experience = ' '.join(data.get('experience')) if data.get('experience') else []
-        
+        company_names = data.get('company_names')
+        college_name = data.get('college_name')
+
         result.append(
             [
-                file_name,
+                datetime.today().strftime('%d-%B-%y'),
+                skills,
                 name,
-                email,
                 mobile_number,
-                skills, 
-                total_experience,
-                experience
+                email,
+                company_names, 
+                experience,
+                college_name,
+                file_name
             ]
         )
 
