@@ -25,6 +25,7 @@ Features
 -  Extract degree
 -  Extract designation
 -  Extract company names
+-  Extract linkedin url
 
 Installation
 ============
